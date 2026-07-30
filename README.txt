@@ -1,0 +1,30 @@
+# Structures for C
+The project will have some libraries with some popular data structures like RSQ, Segment Tree, Vectors...
+
+# Project and Objective
+I'm Gael and with this project I will learn some new data structures, how libraries work in C, and low-level optimization. 
+My goal with this project is to master these concepts
+
+The problems were...
+
+# RSQ (Range Sum Query)
+
+## Features
+- O(1) insert back
+- O(1) pop back
+- O(1) range sum
+- automatic memory growth
+- automatic memory shrinking
+- optional automatic free
+
+#Include 
+```c
+#include "rsq.h"
+```
+
+## Compile 
+```bash
+gcc src/rsq.c examples/rsq_examples.c -I include -o example
+```
+
+See `examples/rsq_examples` for usage.
