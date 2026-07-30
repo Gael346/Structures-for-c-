@@ -5,8 +5,6 @@ The project will have some libraries with some popular data structures like RSQ,
 I'm Gael and with this project I will learn some new data structures, how libraries work in C, and low-level optimization. 
 My goal with this project is to master these concepts
 
-The problems were...
-
 # RSQ (Range Sum Query)
 
 ## Features
