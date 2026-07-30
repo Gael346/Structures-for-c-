@@ -26,3 +26,9 @@ gcc src/rsq.c examples/rsq_examples.c -I include -o example
 ```
 
 See `examples/rsq_examples` for usage.
+
+## Contact
+Email: leomontsar@gmail.com  
+Open to: small collaborations, code reviews...
+
+This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for details.
