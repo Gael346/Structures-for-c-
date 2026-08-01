@@ -32,12 +32,15 @@ void rsq_free_all(void);
 
 RSQ rsq_new(void);
 void rsq_reserve(RSQ *curr, size_t memory);
+
 void rsq_insert(RSQ *curr , int number);
 void rsq_pop(RSQ *curr);
 int rsq_sum(RSQ *curr , int L , int R);
+
 int rsq_get(RSQ *curr, int index);
 int *rsq_begin(RSQ *curr);
 int *rsq_end(RSQ *curr);
+
 int rsq_empty(RSQ *curr);
 void rsq_clear(RSQ *curr);
 void rsq_free(RSQ *curr);
