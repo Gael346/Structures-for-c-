@@ -17,11 +17,11 @@ gh repo clone Gael346/Structures-for-c-
 # RSQ (Range Sum Query)
 
 ## Features
-- O(1) insert back
-- O(1) pop back
-- O(1) range sum
+- O(1) Push and pop back
+- O(1) Get element
+- O(1) Query range sum
 - Automatic memory growth and shrinking
-- optional automatic free(rsq_free_all)
+- Optional automatic free(rsq_free_all)
 - Dual sintaxis API(OPP-style and procedural)
 
 ## Include and compile
@@ -29,7 +29,7 @@ gh repo clone Gael346/Structures-for-c-
 #include "rsq.h"
 ```
 ```bash
-gcc src/rsq.c examples/rsq_examples.c -I include -o example
+gcc src/rsq.c examples/rsq_examples.c -I include -o rsq_examples
 ```
 
 See `examples/rsq_examples` for usage.
@@ -37,26 +37,26 @@ See `examples/rsq_examples` for usage.
 # Vector 
 
 ## Features
-- O(1) insert back
-- O(1) pop back
-- O(n) insert
-- O(n) erase
+- O(1) Get element
+- O(1) Push and pop back
+- O(n) Insert and erase
 - Automatic memory growth and shrinking
 - Generic type support(INT , STRING , FLOAT...)
 - Custom type suport by passing elemnt size( vect_new_custom )
-- optional automatic free(vector_free_all)
+- Optional automatic free (vector_free_all)
 - Dual sintaxis API(OPP-style and procedural)
+- User-friendly data extraction macros (VGET , VDATE , PARSE) 
 
 ## Include and compile
 
 ```c
-#include "rsq.h"
+#include "vector.h"
 ```
 ```bash
-gcc src/rsq.c examples/rsq_examples.c -I include -o example
+gcc src/vector.c examples/vector_examples.c -I include -o vector_examples
 ```
 
-See `examples/rsq_examples` for usage.
+See `examples/vector_examples` for usage.
 
 
 ## Contact
