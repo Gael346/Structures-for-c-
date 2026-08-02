@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const int DEFAULT_MEMORY = 16;
-static const int MEMORY_SCALATOR = 2;
-static const int MEMORY_REDUCTOR = 4;
+static const int DEFAULT_CAPACITY = 16;
+static const int CAPACITY_SCALATOR = 2;
+static const int CAPACITY_REDUCTOR = 4;
 
 typedef struct vector_free{
     vector *_data;
@@ -20,7 +20,7 @@ vector_free cleaner = {
 };
 
 
-static void vect_init(struct vector *curr , size_t memory);
+static void vect_init(struct vector *curr , size_t capacity);
 static size_t vect_size_type(Type type);
 static int vect_amplify(struct vector *curr , char * _function);
 static int vect_reduce(struct vector *curr , char * _function);
@@ -56,7 +56,7 @@ vector vect_new(Type type)
 {
     vector curr;
     curr.type = type;
-    curr._memory_Type = vect_size_type(type);
+    curr._element_Size = vect_size_type(type);
     curr.back = 0;
     curr.reserve = vect_reserve;
     curr.push_back = vect_push_back;
@@ -69,14 +69,14 @@ vector vect_new(Type type)
     curr.empty = vect_empty;
     curr.clear = vect_clear;
     curr.free = vect_free;
-    vect_init(&curr , DEFAULT_MEMORY);
+    vect_init(&curr , DEFAULT_CAPACITY);
     return curr;
 }
 
-vector vect_new_custom(size_t memory_Type)
+vector vect_new_custom(size_t capacity_Type)
 {
     vector curr;
-    curr._memory_Type = memory_Type;
+    curr._element_Size = capacity_Type;
     curr.type = CUSTOM;
     curr.back = 0;
     curr.reserve = vect_reserve;
@@ -90,67 +90,67 @@ vector vect_new_custom(size_t memory_Type)
     curr.empty = vect_empty;
     curr.clear = vect_clear;
     curr.free = vect_free;
-    vect_init(&curr , DEFAULT_MEMORY);
+    vect_init(&curr , DEFAULT_CAPACITY);
     return curr;
 }
 
-static void vect_init(vector *curr , size_t memory)
+static void vect_init(vector *curr , size_t capacity)
 {
-    curr->memory = memory;
+    curr->capacity = capacity;
     curr->size = 0;
-    curr->_data = malloc(curr->_memory_Type * memory);
+    curr->_data = malloc(curr->_element_Size * capacity);
     if(curr->_data == NULL){ 
-        fprintf(stderr , "ERROR IN : vector_reserve() in allocate memory\n");
-        curr->memory = 0;
+        fprintf(stderr , "ERROR IN : vector_reserve() in allocate capacity\n");
+        curr->capacity = 0;
         return;
     }
 }
 
-void vect_reserve(vector *curr , size_t memory)
+void vect_reserve(vector *curr , size_t capacity)
 {
-    if(memory <= curr->memory) return;
-    if(curr->memory == 0) {
-        vect_init(curr , memory);
+    if(capacity <= curr->capacity) return;
+    if(curr->capacity == 0) {
+        vect_init(curr , capacity);
         return;
     }
     void * temp = curr->_data;
-    curr->_data = realloc(curr->_data , curr->_memory_Type * memory);
+    curr->_data = realloc(curr->_data , curr->_element_Size * capacity);
     if(curr->_data == NULL){
-        fprintf(stderr , "ERROR IN : vector_reserve() in allocate memory\n");
+        fprintf(stderr , "ERROR IN : vector_reserve() in allocate capacity\n");
         curr->_data = temp;
         return;
     }
-    curr->memory = memory;
+    curr->capacity = capacity;
 }
 
 static int vect_amplify(vector *curr , char * _function)
 {
-    if(curr->size >= curr->memory)
+    if(curr->size >= curr->capacity)
     {
         void *temp = curr->_data;
-        curr->_data = realloc(curr->_data , curr->_memory_Type * curr->memory * MEMORY_SCALATOR);
+        curr->_data = realloc(curr->_data , curr->_element_Size * curr->capacity * CAPACITY_SCALATOR);
         if(curr->_data == NULL){
-            fprintf( stderr , "ERROR IN : %s() in allocate memory\n" , _function);
+            fprintf( stderr , "ERROR IN : %s() in allocate capacity\n" , _function);
             curr->_data = temp;
             return 0;
         }
-        curr->memory *= MEMORY_SCALATOR;
+        curr->capacity *= CAPACITY_SCALATOR;
     }
     return 1;
 }
 
 static int vect_reduce(vector *curr , char * _function)
 {
-    if(curr->size < curr->memory / MEMORY_REDUCTOR && curr->memory/MEMORY_REDUCTOR > DEFAULT_MEMORY)
+    if(curr->size < curr->capacity / CAPACITY_REDUCTOR && curr->capacity/CAPACITY_REDUCTOR > DEFAULT_CAPACITY)
     {
         void *temp = curr->_data;
-        curr->_data = realloc(curr->_data , curr->_memory_Type * curr->memory / MEMORY_REDUCTOR);
+        curr->_data = realloc(curr->_data , curr->_element_Size * curr->capacity / CAPACITY_REDUCTOR);
         if(curr->_data == NULL){
-            fprintf( stderr , "ERROR IN : %s() in allocate memory\n" , _function);
+            fprintf( stderr , "ERROR IN : %s() in allocate capacity\n" , _function);
             curr->_data = temp;
             return 0;
         }
-        curr->memory /= MEMORY_REDUCTOR;
+        curr->capacity /= CAPACITY_REDUCTOR;
     }
     return 1;
 }
@@ -158,7 +158,7 @@ static int vect_reduce(vector *curr , char * _function)
 void vect_push_back(vector *curr , void *value)
 {
     if(!vect_amplify(curr , "vect_push_back")) return;
-    memcpy((char *)curr->_data  + (curr->size * curr->_memory_Type), value , curr->_memory_Type);
+    memcpy((char *)curr->_data  + (curr->size * curr->_element_Size), value , curr->_element_Size);
     curr->size++;
     curr->back = curr->size -1;
 }
@@ -184,11 +184,11 @@ void vect_insert(vector *curr , int index , void * value)
     }
     if(!vect_amplify(curr , "vect_insert")) return;
     memmove(
-    (char *)curr->_data + (index + 1) * curr->_memory_Type,
-    (char *)curr->_data + index * curr->_memory_Type,
-    (curr->size - index) * curr->_memory_Type
+    (char *)curr->_data + (index + 1) * curr->_element_Size,
+    (char *)curr->_data + index * curr->_element_Size,
+    (curr->size - index) * curr->_element_Size
     );
-    memcpy((char *)curr->_data + curr->_memory_Type * index , value , curr->_memory_Type);
+    memcpy((char *)curr->_data + curr->_element_Size * index , value , curr->_element_Size);
     curr->size++;
     curr->back = curr->size -1;
 }
@@ -202,9 +202,9 @@ void vect_erase(vector *curr , int index)
     }
     if(!vect_reduce(curr , "vect_erase")) return;
     memmove(
-    (char *)curr->_data + index * curr->_memory_Type,
-    (char *)curr->_data + (index + 1) * curr->_memory_Type,
-    (curr->size - index - 1) * curr->_memory_Type
+    (char *)curr->_data + index * curr->_element_Size,
+    (char *)curr->_data + (index + 1) * curr->_element_Size,
+    (curr->size - index - 1) * curr->_element_Size
     );
     curr->size--;
     curr->back = curr->size -1;
@@ -216,7 +216,7 @@ void * vect_get(vector *curr , int index)
         fprintf(stderr , "ERROR IN : vect_get() index out of bounds\n");
         return NULL;
     }
-    return ((char *)curr->_data) +  index * curr->_memory_Type;
+    return ((char *)curr->_data) +  index * curr->_element_Size;
 }
 
 void *vect_begin(vector *curr)
@@ -226,7 +226,7 @@ void *vect_begin(vector *curr)
 
 void *vect_end(vector *curr)
 {
-    return (char *) curr->_data + curr->_memory_Type * curr->size;
+    return (char *) curr->_data + curr->_element_Size * curr->size;
 }
 
 int vect_empty(vector *curr)
@@ -243,7 +243,7 @@ void vect_free(vector *curr)
     free(curr->_data);
     curr->_data = NULL;
     curr->size = 0;
-    curr->memory = 0;
+    curr->capacity = 0;
 }
 
 
@@ -251,7 +251,7 @@ void vect_insert_free(vector *curr)
 {
     vector_free *temp = malloc(sizeof(vector_free));
     if(temp == NULL) {
-        fprintf( stderr , "ERROR IN : vect_insert_free() in allocate memory\n");
+        fprintf( stderr , "ERROR IN : vect_insert_free() in allocate capacity\n");
         return;
     }
     temp->_data = curr;

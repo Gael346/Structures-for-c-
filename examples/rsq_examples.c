@@ -7,11 +7,11 @@ int main()
 
     CREATE_RSQ(x);
 
-    x.insert(&x, 1 );
-    x.insert(&x, 5 );
-    x.insert(&x, 12 );
-    x.insert(&x, 8 );
-    x.insert(&x, 7 );
+    x.push_back(&x, 1 );
+    x.push_back(&x, 5 );
+    x.push_back(&x, 12 );
+    x.push_back(&x, 8 );
+    x.push_back(&x, 7 );
 
     x.pop(&x);
 
@@ -35,18 +35,18 @@ int main()
 
     for(int i = 0; i < 10 ; i++)
     {
-        rsq_insert(&y , i);
+        rsq_push_back(&y , i);
     }
 
     rsq_pop(&y);
 
     y.clear(&y);
-    rsq_insert(&y , 1);
-    rsq_insert(&y , 4);
-    rsq_insert(&y , 6);
+    rsq_push_back(&y , 1);
+    rsq_push_back(&y , 4);
+    rsq_push_back(&y , 6);
 
     printf("POS: %i , VALUE: %i\n" , 1 , rsq_get(&y,1));
-    printf("SUM: %i" , rsq_sum(&y , y.front , 1));
+    printf("SUM: %i" , rsq_sum(&y , 0 , 1));
 
     rsq_free(&y);
 }

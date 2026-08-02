@@ -1,9 +1,14 @@
 #include "vector.h"
 #include <stdio.h>
 
+// For example 3
+typedef struct{
+    str name;
+    int money;
+}person;
+
 int main()
 {
-
     // Example 1
     CREATE_VECT(x , INT);
 
@@ -12,7 +17,7 @@ int main()
         x.push_back(&x , VDATE(i));
     }
 
-    for(size_t i = 0; i < x.size; i++)
+    for(int i = 0; i < x.size; i++)
     {
         int value;
         VGET(x , i , value);
@@ -50,7 +55,7 @@ int main()
     vect_insert(&y , 0 , VDATE("Hello"));
     vect_push_back(&y , VDATE("this"));
 
-    for(size_t i = 0; i < y.size; i++)
+    for(int i = 0; i < y.size; i++)
     {
         str value;
         VGET(y , i , value);
@@ -67,8 +72,44 @@ int main()
     vect_clear(&y);
     if(vect_empty(&y)) 
     {
-        printf("NOT EMPTY\n");
+        printf("EMPTY\n");
     }
 
     vect_free(&y);
+
+    // Example 3
+    person pers1 = {
+        .name = "Gael",
+        .money = 10
+    };
+    person pers2 = {
+        .name = "Jack",
+        .money = 123
+    };
+
+    /* To automatically free a vector's memory without using CREATE_VECT, 
+       declare a vector variable and then call vect_insert_free on it. */
+    vector z = vect_new_custom(sizeof(person));
+    vect_insert_free(&z);
+
+    z.push_back(&z , &pers1);
+    z.insert(&z , 0, &pers2);
+
+    for(int i = 0; i < z.size ; i++)
+    {
+        person value;
+        VGET(z , i , value);
+        printf("POS:%i , VALUE-> Name: %s , Money:%i\n" , i , value.name , value.money);
+    }
+
+    while (!vect_empty(&z))
+    {
+        z.pop(&z);
+    }
+
+    if(vect_empty(&z)) {
+        printf("EMPTY\n");
+    }
+    
+    vect_free_all();
 }

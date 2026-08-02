@@ -13,6 +13,10 @@ typedef char * str;
     vector name = vect_new(type); \
     vect_insert_free(&name); 
 
+#define CREATE_VECT_CUSTOM( name , type) \ 
+    vector name = vect_new_custom(sizeof(type)); \
+    vect_insert_free(&name);
+
 #define VDATE(value) \
     __builtin_choose_expr( \
         __builtin_types_compatible_p(__typeof__(value), char[sizeof(value)]), \
@@ -35,11 +39,11 @@ typedef struct vector
 {
     Type type;
     void *_data;
-    size_t _memory_Type;
+    size_t _element_Size;
     size_t size;
-    size_t memory;
+    size_t capacity;
     size_t back;
-    void (*reserve)(struct vector *self, size_t memory);
+    void (*reserve)(struct vector *self, size_t capacity);
     void (*push_back)(struct vector *self, void *value);
     void (*pop)(struct vector *self);
     void *(*get)(struct vector *self, int index);
@@ -57,8 +61,8 @@ void vect_free_all();
 void vect_insert_free(vector *curr);
 
 vector vect_new(Type type); 
-vector vect_new_custom(size_t memory_Type);
-void vect_reserve(struct vector *curr , size_t memory);
+vector vect_new_custom(size_t capacity_Type);
+void vect_reserve(struct vector *curr , size_t capacity);
 
 void vect_push_back(struct vector *curr , void *value);
 void vect_pop(struct vector *curr);
