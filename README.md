@@ -20,9 +20,9 @@ gh repo clone Gael346/Structures-for-c-
 - O(1) insert back
 - O(1) pop back
 - O(1) range sum
-- automatic memory growth
-- automatic memory shrinking
-- optional automatic free
+- Automatic memory growth and shrinking
+- optional automatic free(rsq_free_all)
+- Dual sintaxis API(OPP-style and procedural)
 
 ## Include and compile
 ```c
@@ -33,6 +33,31 @@ gcc src/rsq.c examples/rsq_examples.c -I include -o example
 ```
 
 See `examples/rsq_examples` for usage.
+
+# Vector 
+
+## Features
+- O(1) insert back
+- O(1) pop back
+- O(n) insert
+- O(n) erase
+- Automatic memory growth and shrinking
+- Generic type support(INT , STRING , FLOAT...)
+- Custom type suport by passing elemnt size( vect_new_custom )
+- optional automatic free(vector_free_all)
+- Dual sintaxis API(OPP-style and procedural)
+
+## Include and compile
+
+```c
+#include "rsq.h"
+```
+```bash
+gcc src/rsq.c examples/rsq_examples.c -I include -o example
+```
+
+See `examples/rsq_examples` for usage.
+
 
 ## Contact
 Email: leomontsar@gmail.com  
