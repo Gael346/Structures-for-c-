@@ -11,9 +11,9 @@ typedef char * str;
 
 #define CREATE_VECT( name , type) \
     vector name = vect_new(type); \
-    vect_insert_free(&name); 
+    vect_insert_free(&name);
 
-#define CREATE_VECT_CUSTOM( name , type) \ 
+#define CREATE_VECT_CUSTOM( name , type) \
     vector name = vect_new_custom(sizeof(type)); \
     vect_insert_free(&name);
 

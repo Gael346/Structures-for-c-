@@ -1,6 +1,5 @@
 # Structures for C
-The project will have some libraries with some popular data structures like RSQ, Segment Tree, Vectors...
-
+The project will have some libraries with some popular data structures like vectors , Bomm filter...
 # Project and Objective
 I'm Gael and with this project I will learn some new data structures, how libraries work in C, and low-level optimization. 
 My goal with this project is to master these concepts
@@ -14,26 +13,6 @@ git clone https://github.com/Gael346/Structures-for-c-.git
 ```bash
 gh repo clone Gael346/Structures-for-c-
 ```
-# RSQ (Range Sum Query)
-
-## Features
-- O(1) Push and pop back
-- O(1) Get element
-- O(1) Query range sum
-- Automatic memory growth and shrinking
-- Optional automatic free(rsq_free_all)
-- Dual sintaxis API(OPP-style and procedural)
-
-## Include and compile
-```c
-#include "rsq.h"
-```
-```bash
-gcc src/rsq.c examples/rsq_examples.c -I include -o rsq_examples
-```
-
-See `examples/rsq_examples` for usage.
-
 # Vector 
 
 ## Features
